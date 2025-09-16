@@ -73,11 +73,25 @@
           "host": ["52.146.16.14"],
           "port": "1026",
           "path": ["v2", "entities"],
-          "query": [
-            { "key": "type", "value": "Pergunta" }
-          ]
+          "query": [{ "key": "type", "value": "Pergunta" }]
         },
         "description": "Lê todas as perguntas cadastradas no Orion"
+      },
+      "response": []
+    },
+    {
+      "name": "Remover Pergunta por ID",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://52.146.16.14:1026/v2/entities/Pergunta:1",
+          "protocol": "http",
+          "host": ["52.146.16.14"],
+          "port": "1026",
+          "path": ["v2", "entities", "Pergunta:1"]
+        },
+        "description": "Remove a pergunta com ID especificado"
       },
       "response": []
     },
@@ -112,11 +126,26 @@
           "host": ["52.146.16.14"],
           "port": "1026",
           "path": ["v2", "entities"],
-          "query": [
-            { "key": "type", "value": "Resposta" }
-          ]
+          "query": [{ "key": "type", "value": "Resposta" }]
         },
         "description": "Lê todas as respostas registradas no Orion"
+      },
+      "response": []
+    },
+    {
+      "name": "Limpar Todas Respostas",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://52.146.16.14:1026/v2/entities?type=Resposta",
+          "protocol": "http",
+          "host": ["52.146.16.14"],
+          "port": "1026",
+          "path": ["v2", "entities"],
+          "query": [{ "key": "type", "value": "Resposta" }]
+        },
+        "description": "Remove todas as respostas registradas"
       },
       "response": []
     }
