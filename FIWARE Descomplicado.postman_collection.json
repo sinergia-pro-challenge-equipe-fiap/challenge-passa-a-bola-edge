@@ -1,302 +1,302 @@
 {
-	"info": {
-		"_postman_id": "8af12321-1427-4b0f-9b04-5f7f2d06bbc8",
-		"name": "FIWARE Descomplicado",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "179747"
-	},
-	"item": [
-		{
-			"name": "IOT Agent MQTT",
-			"item": [
-				{
-					"name": "1.1 Health Check",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{url}}:4041/iot/about",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "4041",
-							"path": ["iot", "about"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2. Provisioning a Service Group for MQTT",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json", "type": "text" },
-							{ "key": "fiware-service", "value": "smart", "type": "text" },
-							{ "key": "fiware-servicepath", "value": "/", "type": "text" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n \"services\": [\n   {\n     \"apikey\": \"TEF\",\n     \"cbroker\": \"http://{{url}}:1026\",\n     \"entity_type\": \"Thing\",\n     \"resource\": \"\"\n   }\n ]\n}"
-						},
-						"url": {
-							"raw": "http://{{url}}:4041/iot/services",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "4041",
-							"path": ["iot", "services"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2.1 Health Check Services",
-					"request": {
-						"method": "GET",
-						"header": [
-							{ "key": "fiware-service", "value": "smart", "type": "text" },
-							{ "key": "fiware-servicepath", "value": "/", "type": "text" }
-						],
-						"url": {
-							"raw": "http://{{url}}:4041/iot/services",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "4041",
-							"path": ["iot", "services"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2.2 Delete a Service Group",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{ "key": "fiware-service", "value": "smart" },
-							{ "key": "fiware-servicepath", "value": "/" }
-						],
-						"url": {
-							"raw": "http://{{url}}:4041/iot/services/?resource=&apikey=TEF",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "4041",
-							"path": ["iot", "services", ""],
-							"query": [
-								{ "key": "resource", "value": "" },
-								{ "key": "apikey", "value": "TEF" }
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "STH-Comet",
-			"item": [
-				{
-					"name": "1. Health Check",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{url}}:8666/version",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "8666",
-							"path": ["version"]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Orion Context Broker",
-			"item": [
-				{
-					"name": "1.Version",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://{{url}}:1026/version",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "1026",
-							"path": ["version"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "2.Create",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" },
-							{ "key": "fiware-service", "value": "smart", "type": "text" },
-							{ "key": "fiware-servicepath", "value": "/", "type": "text" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"id\": \"urn:ngsi-ld:entity:001\",\n  \"type\": \"iot\",\n  \"temperature\": { \"type\": \"float\", \"value\": 0 },\n  \"humidity\": { \"type\": \"float\", \"value\": 0 }\n}"
-						},
-						"url": {
-							"raw": "http://{{url}}:1026/v2/entities",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "1026",
-							"path": ["v2", "entities"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "3.Get ",
-					"request": {
-						"method": "GET",
-						"header": [
-							{ "key": "Accept", "value": "application/json" },
-							{ "key": "fiware-service", "value": "smart", "type": "text" },
-							{ "key": "fiware-servicepath", "value": "/", "type": "text" }
-						],
-						"url": {
-							"raw": "http://{{url}}:1026/v2/entities",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "1026",
-							"path": ["v2", "entities"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "4.Update",
-					"request": {
-						"method": "POST",
-						"header": [
-							{ "key": "Content-Type", "value": "application/json" },
-							{ "key": "fiware-service", "value": "smart", "type": "text" },
-							{ "key": "fiware-servicepath", "value": "/", "type": "text" }
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"temperature\": { \"type\": \"float\", \"value\": 35 },\n  \"humidity\": { \"type\": \"float\", \"value\": 60 }\n}"
-						},
-						"url": {
-							"raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001/attrs",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "1026",
-							"path": ["v2", "entities", "urn:ngsi-ld:entity:001", "attrs"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "5.Delete",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{ "key": "fiware-service", "value": "smart", "type": "text" },
-							{ "key": "fiware-servicepath", "value": "/", "type": "text" }
-						],
-						"url": {
-							"raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001",
-							"protocol": "http",
-							"host": ["{{url}}"],
-							"port": "1026",
-							"path": ["v2", "entities", "urn:ngsi-ld:entity:001"]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-		  "name": "Quiz Futebol Feminino",
-		  "item": [
-		    {
-		      "name": "1. Health Check Quiz",
-		      "request": {
-		        "method": "GET",
-		        "header": [],
-		        "url": {
-		          "raw": "http://{{url}}:3000/quiz/health",
-		          "protocol": "http",
-		          "host": ["{{url}}"],
-		          "port": "3000",
-		          "path": ["quiz", "health"]
-		        }
-		      },
-		      "response": []
-		    },
-		    {
-		      "name": "2. Adicionar Perguntas",
-		      "request": {
-		        "method": "POST",
-		        "header": [
-		          { "key": "Content-Type", "value": "application/json" }
-		        ],
-		        "body": {
-		          "mode": "raw",
-		          "raw": "[\n  {\n    \"id\": 1,\n    \"pergunta\": \"Qual país venceu a primeira Copa do Mundo de Futebol Feminino em 1991?\",\n    \"opcoes\": [\"Brasil\", \"EUA\", \"Noruega\", \"Alemanha\"],\n    \"resposta\": \"EUA\"\n  },\n  {\n    \"id\": 2,\n    \"pergunta\": \"Quem é a maior artilheira da história das Copas do Mundo Femininas?\",\n    \"opcoes\": [\"Marta\", \"Birgit Prinz\", \"Abby Wambach\", \"Alex Morgan\"],\n    \"resposta\": \"Marta\"\n  },\n  {\n    \"id\": 3,\n    \"pergunta\": \"Qual país sediou a Copa do Mundo Feminina de 2019?\",\n    \"opcoes\": [\"Canadá\", \"Alemanha\", \"França\", \"China\"],\n    \"resposta\": \"França\"\n  },\n  {\n    \"id\": 4,\n    \"pergunta\": \"Qual seleção conquistou mais títulos da Copa do Mundo Feminina até 2023?\",\n    \"opcoes\": [\"EUA\", \"Alemanha\", \"Brasil\", \"Japão\"],\n    \"resposta\": \"EUA\"\n  },\n  {\n    \"id\": 5,\n    \"pergunta\": \"Em que ano o futebol feminino foi incluído oficialmente nos Jogos Olímpicos?\",\n    \"opcoes\": [\"1992\", \"1996\", \"2000\", \"2004\"],\n    \"resposta\": \"1996\"\n  }\n]"
-		        },
-		        "url": {
-		          "raw": "http://{{url}}:3000/quiz/perguntas",
-		          "protocol": "http",
-		          "host": ["{{url}}"],
-		          "port": "3000",
-		          "path": ["quiz", "perguntas"]
-		        }
-		      },
-		      "response": []
-		    },
-		    {
-		      "name": "3. Listar Perguntas",
-		      "request": {
-		        "method": "GET",
-		        "header": [],
-		        "url": {
-		          "raw": "http://{{url}}:3000/quiz/perguntas",
-		          "protocol": "http",
-		          "host": ["{{url}}"],
-		          "port": "3000",
-		          "path": ["quiz", "perguntas"]
-		        }
-		      },
-		      "response": []
-		    },
-		    {
-		      "name": "4. Consultar Pergunta por ID",
-		      "request": {
-		        "method": "GET",
-		        "header": [],
-		        "url": {
-		          "raw": "http://{{url}}:3000/quiz/perguntas/1",
-		          "protocol": "http",
-		          "host": ["{{url}}"],
-		          "port": "3000",
-		          "path": ["quiz", "perguntas", "1"]
-		        }
-		      },
-		      "response": []
-		    },
-		    {
-		      "name": "5. Deletar Pergunta por ID",
-		      "request": {
-		        "method": "DELETE",
-		        "header": [],
-		        "url": {
-		          "raw": "http://{{url}}:3000/quiz/perguntas/1",
-		          "protocol": "http",
-		          "host": ["{{url}}"],
-		          "port": "3000",
-		          "path": ["quiz", "perguntas", "1"]
-		        }
-		      },
-		      "response": []
-		    }
-		  ]
-		}
-	]
+  "info": {
+    "_postman_id": "8af12321-1427-4b0f-9b04-5f7f2d06bbc8",
+    "name": "FIWARE Descomplicado",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "179747"
+  },
+  "item": [
+    {
+      "name": "IOT Agent MQTT",
+      "item": [
+        {
+          "name": "1.1 Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/about",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "4041",
+              "path": ["iot", "about"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Provisioning a Service Group for MQTT",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json", "type": "text" },
+              { "key": "fiware-service", "value": "smart", "type": "text" },
+              { "key": "fiware-servicepath", "value": "/", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n \"services\": [\n   {\n     \"apikey\": \"TEF\",\n     \"cbroker\": \"http://{{url}}:1026\",\n     \"entity_type\": \"Thing\",\n     \"resource\": \"\"\n   }\n ]\n}"
+            },
+            "url": {
+              "raw": "http://{{url}}:4041/iot/services",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "4041",
+              "path": ["iot", "services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.1 Health Check Services",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "fiware-service", "value": "smart", "type": "text" },
+              { "key": "fiware-servicepath", "value": "/", "type": "text" }
+            ],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/services",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "4041",
+              "path": ["iot", "services"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.2 Delete a Service Group",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "fiware-service", "value": "smart" },
+              { "key": "fiware-servicepath", "value": "/" }
+            ],
+            "url": {
+              "raw": "http://{{url}}:4041/iot/services/?resource=&apikey=TEF",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "4041",
+              "path": ["iot", "services", ""],
+              "query": [
+                { "key": "resource", "value": "" },
+                { "key": "apikey", "value": "TEF" }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "STH-Comet",
+      "item": [
+        {
+          "name": "1. Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:8666/version",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "8666",
+              "path": ["version"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orion Context Broker",
+      "item": [
+        {
+          "name": "1.Version",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:1026/version",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "1026",
+              "path": ["version"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2.Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "fiware-service", "value": "smart", "type": "text" },
+              { "key": "fiware-servicepath", "value": "/", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"urn:ngsi-ld:entity:001\",\n  \"type\": \"iot\",\n  \"temperature\": { \"type\": \"float\", \"value\": 0 },\n  \"humidity\": { \"type\": \"float\", \"value\": 0 }\n}"
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "1026",
+              "path": ["v2", "entities"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3.Get",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "fiware-service", "value": "smart", "type": "text" },
+              { "key": "fiware-servicepath", "value": "/", "type": "text" }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "1026",
+              "path": ["v2", "entities"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4.Update",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "fiware-service", "value": "smart", "type": "text" },
+              { "key": "fiware-servicepath", "value": "/", "type": "text" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"temperature\": { \"type\": \"float\", \"value\": 35 },\n  \"humidity\": { \"type\": \"float\", \"value\": 60 }\n}"
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001/attrs",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "1026",
+              "path": ["v2", "entities", "urn:ngsi-ld:entity:001", "attrs"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5.Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "fiware-service", "value": "smart", "type": "text" },
+              { "key": "fiware-servicepath", "value": "/", "type": "text" }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities/urn:ngsi-ld:entity:001",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "1026",
+              "path": ["v2", "entities", "urn:ngsi-ld:entity:001"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Quiz Futebol Feminino",
+      "item": [
+        {
+          "name": "1. Health Check Quiz",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:3000/quiz/health",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "3000",
+              "path": ["quiz", "health"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "2. Adicionar Perguntas",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[\n  {\n    \"id\": 1,\n    \"pergunta\": \"Qual país venceu a primeira Copa do Mundo de Futebol Feminino em 1991?\",\n    \"opcoes\": [\"Brasil\", \"EUA\", \"Noruega\", \"Alemanha\"],\n    \"resposta\": \"EUA\"\n  },\n  {\n    \"id\": 2,\n    \"pergunta\": \"Quem é a maior artilheira da história das Copas do Mundo Femininas?\",\n    \"opcoes\": [\"Marta\", \"Birgit Prinz\", \"Abby Wambach\", \"Alex Morgan\"],\n    \"resposta\": \"Marta\"\n  },\n  {\n    \"id\": 3,\n    \"pergunta\": \"Qual país sediou a Copa do Mundo Feminina de 2019?\",\n    \"opcoes\": [\"Canadá\", \"Alemanha\", \"França\", \"China\"],\n    \"resposta\": \"França\"\n  },\n  {\n    \"id\": 4,\n    \"pergunta\": \"Qual seleção conquistou mais títulos da Copa do Mundo Feminina até 2023?\",\n    \"opcoes\": [\"EUA\", \"Alemanha\", \"Brasil\", \"Japão\"],\n    \"resposta\": \"EUA\"\n  },\n  {\n    \"id\": 5,\n    \"pergunta\": \"Em que ano o futebol feminino foi incluído oficialmente nos Jogos Olímpicos?\",\n    \"opcoes\": [\"1992\", \"1996\", \"2000\", \"2004\"],\n    \"resposta\": \"1996\"\n  }\n]"
+            },
+            "url": {
+              "raw": "http://{{url}}:3000/quiz/perguntas",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "3000",
+              "path": ["quiz", "perguntas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "3. Listar Perguntas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:3000/quiz/perguntas",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "3000",
+              "path": ["quiz", "perguntas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "4. Consultar Pergunta por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:3000/quiz/perguntas/1",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "3000",
+              "path": ["quiz", "perguntas", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "5. Deletar Pergunta por ID",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://{{url}}:3000/quiz/perguntas/1",
+              "protocol": "http",
+              "host": ["{{url}}"],
+              "port": "3000",
+              "path": ["quiz", "perguntas", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
 }
