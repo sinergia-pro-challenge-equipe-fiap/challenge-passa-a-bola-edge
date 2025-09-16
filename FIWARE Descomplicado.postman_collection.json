@@ -2,7 +2,7 @@
   "info": {
     "name": "Quiz Futebol Feminino - Orion/MQTT",
     "_postman_id": "f1a8c9a3-6f23-4e9f-quiz-read",
-    "description": "Collection para enviar e ler perguntas/respostas do Quiz via Orion Context Broker + MQTT integrado.",
+    "description": "Collection para enviar perguntas e respostas do Quiz via Orion Context Broker + MQTT integrado com ESP32.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -82,27 +82,27 @@
       "response": []
     },
     {
-      "name": "Registrar Resposta (manual)",
+      "name": "Enviar Resposta Usuário (MQTT)",
       "request": {
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
         "url": {
-          "raw": "http://52.146.16.14:1026/v2/entities",
-          "protocol": "http",
+          "raw": "mqtt://52.146.16.14:1883/TEF/quiz/respostaUsuario",
+          "protocol": "mqtt",
           "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["v2", "entities"]
+          "port": "1883",
+          "path": ["TEF", "quiz", "respostaUsuario"]
         },
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"id\": \"Resposta:1\",\n  \"type\": \"Resposta\",\n  \"perguntaId\": {\"value\": \"Pergunta:1\"},\n  \"respostaUsuario\": {\"value\": \"Brasil\"},\n  \"resultado\": {\"value\": \"Incorreto\"}\n}"
+          "raw": "{\n  \"resposta\": \"Brasil\"\n}"
         },
-        "description": "Registra manualmente uma resposta no Orion (opcional, já que ESP32 envia via MQTT)"
+        "description": "Envia a resposta do usuário para o ESP32 validar"
       },
       "response": []
     },
     {
-      "name": "Ler Respostas",
+      "name": "Ler Respostas Registradas",
       "request": {
         "method": "GET",
         "header": [],
