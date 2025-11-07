@@ -1,154 +1,164 @@
 {
   "info": {
-    "name": "Quiz Futebol Feminino - Orion/MQTT",
-    "_postman_id": "f1a8c9a3-6f23-4e9f-quiz-read",
-    "description": "Collection para enviar perguntas e respostas do Quiz via Orion Context Broker + MQTT integrado com ESP32.",
+    "_postman_id": "8af12321-1427-4b0f-9b04-5f7f2d06bbc8",
+    "name": "FIWARE Descomplicado - Adapted for Quiz",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Health Check Orion",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://52.146.16.14:1026/version",
-          "protocol": "http",
-          "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["version"]
-        },
-        "description": "Verifica se o Orion Context Broker está ativo"
-      },
-      "response": []
+      "name": "IOT Agent MQTT",
+      "item": [
+        {
+          "name": "1.1 Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://{{url}}:4041/iot/about", "host": ["{{url}}"], "port": "4041", "path": ["iot", "about"] }
+          },
+          "response": []
+        }
+      ]
     },
     {
-      "name": "Criar Pergunta 1",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": {
-          "raw": "http://52.146.16.14:1026/v2/entities",
-          "protocol": "http",
-          "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["v2", "entities"]
+      "name": "STH-Comet",
+      "item": [
+        {
+          "name": "1. Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://{{url}}:8666/version", "host": ["{{url}}"], "port": "8666", "path": ["version"] }
+          },
+          "response": []
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"id\": \"Pergunta:1\",\n  \"type\": \"Pergunta\",\n  \"pergunta\": {\"value\": \"Qual país venceu a primeira Copa do Mundo Feminino em 1991?\"},\n  \"opcoes\": {\"value\": [\"Brasil\", \"EUA\", \"Noruega\", \"Alemanha\"]},\n  \"resposta\": {\"value\": \"EUA\"}\n}"
-        },
-        "description": "Cria a primeira pergunta no Orion"
-      },
-      "response": []
+        {
+          "name": "2. Query Resposta (lastN)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "fiware-service", "value": "smart" },
+              { "key": "fiware-servicepath", "value": "/" }
+            ],
+            "url": {
+              "raw": "http://{{url}}:8666/STH/v1/contextEntities/type/Resposta/attributes/resultado?lastN=100",
+              "host": ["{{url}}"],
+              "port": "8666",
+              "path": ["STH","v1","contextEntities","type","Resposta","attributes","resultado"],
+              "query": [{ "key": "lastN", "value": "100" }]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
-      "name": "Criar Pergunta 2",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": {
-          "raw": "http://52.146.16.14:1026/v2/entities",
-          "protocol": "http",
-          "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["v2", "entities"]
+      "name": "Orion Context Broker",
+      "item": [
+        {
+          "name": "1. Version",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://{{url}}:1026/version", "host": ["{{url}}"], "port": "1026", "path": ["version"] }
+          },
+          "response": []
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"id\": \"Pergunta:2\",\n  \"type\": \"Pergunta\",\n  \"pergunta\": {\"value\": \"Quem é a maior artilheira da história das Copas do Mundo Femininas?\"},\n  \"opcoes\": {\"value\": [\"Marta\", \"Birgit Prinz\", \"Abby Wambach\", \"Alex Morgan\"]},\n  \"resposta\": {\"value\": \"Marta\"}\n}"
+        {
+          "name": "2. Create Resposta (manual)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "fiware-service", "value": "smart" },
+              { "key": "fiware-servicepath", "value": "/" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"Resposta:1\",\n  \"type\": \"Resposta\",\n  \"perguntaId\": { \"value\": \"Pergunta:1\" },\n  \"respostaUsuario\": { \"value\": \"Brasil\" },\n  \"resultado\": { \"value\": \"Incorreto\" }\n}"
+            },
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities",
+              "host": ["{{url}}"],
+              "port": "1026",
+              "path": ["v2","entities"]
+            }
+          },
+          "response": []
         },
-        "description": "Cria a segunda pergunta no Orion"
-      },
-      "response": []
+        {
+          "name": "3. Get Entities (all)",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "fiware-service", "value": "smart" },
+              { "key": "fiware-servicepath", "value": "/" }
+            ],
+            "url": {
+              "raw": "http://{{url}}:1026/v2/entities",
+              "host": ["{{url}}"],
+              "port": "1026",
+              "path": ["v2", "entities"]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
-      "name": "Ler Perguntas (Read)",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://52.146.16.14:1026/v2/entities?type=Pergunta",
-          "protocol": "http",
-          "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["v2", "entities"],
-          "query": [{ "key": "type", "value": "Pergunta" }]
+      "name": "Quiz Futebol Feminino",
+      "item": [
+        {
+          "name": "1. Health Check Quiz",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://{{url}}:3000/quiz/health", "host": ["{{url}}"], "port": "3000", "path": ["quiz", "health"] }
+          },
+          "response": []
         },
-        "description": "Lê todas as perguntas cadastradas no Orion"
-      },
-      "response": []
-    },
-    {
-      "name": "Remover Pergunta por ID",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://52.146.16.14:1026/v2/entities/Pergunta:1",
-          "protocol": "http",
-          "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["v2", "entities", "Pergunta:1"]
+        {
+          "name": "2. Adicionar Perguntas (quiz service)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "[ { \"id\": 1, \"pergunta\": \"Qual país venceu a primeira Copa do Mundo de Futebol Feminino em 1991?\", \"opcoes\": [\"Brasil\",\"EUA\",\"Noruega\",\"Alemanha\"], \"resposta\": \"EUA\" } ]"
+            },
+            "url": { "raw": "http://{{url}}:3000/quiz/perguntas", "host": ["{{url}}"], "port": "3000", "path": ["quiz","perguntas"] }
+          },
+          "response": []
         },
-        "description": "Remove a pergunta com ID especificado"
-      },
-      "response": []
-    },
-    {
-      "name": "Enviar Resposta Usuário (MQTT)",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "url": {
-          "raw": "mqtt://52.146.16.14:1883/TEF/quiz/respostaUsuario",
-          "protocol": "mqtt",
-          "host": ["52.146.16.14"],
-          "port": "1883",
-          "path": ["TEF", "quiz", "respostaUsuario"]
+        {
+          "name": "3. Listar Perguntas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "http://{{url}}:3000/quiz/perguntas", "host": ["{{url}}"], "port": "3000", "path": ["quiz","perguntas"] }
+          },
+          "response": []
         },
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"resposta\": \"Brasil\"\n}"
-        },
-        "description": "Envia a resposta do usuário para o ESP32 validar"
-      },
-      "response": []
-    },
-    {
-      "name": "Ler Respostas Registradas",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://52.146.16.14:1026/v2/entities?type=Resposta",
-          "protocol": "http",
-          "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["v2", "entities"],
-          "query": [{ "key": "type", "value": "Resposta" }]
-        },
-        "description": "Lê todas as respostas registradas no Orion"
-      },
-      "response": []
-    },
-    {
-      "name": "Limpar Todas Respostas",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://52.146.16.14:1026/v2/entities?type=Resposta",
-          "protocol": "http",
-          "host": ["52.146.16.14"],
-          "port": "1026",
-          "path": ["v2", "entities"],
-          "query": [{ "key": "type", "value": "Resposta" }]
-        },
-        "description": "Remove todas as respostas registradas"
-      },
-      "response": []
+        {
+          "name": "4. Enviar Resposta (via Orion manual) - cria entidade Resposta",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "fiware-service", "value": "smart" },
+              { "key": "fiware-servicepath", "value": "/" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"Resposta:manual:1\",\n  \"type\": \"Resposta\",\n  \"perguntaId\": {\"value\": \"Pergunta:1\"},\n  \"respostaUsuario\": {\"value\": \"EUA\"},\n  \"resultado\": {\"value\": \"Correto\"}\n}"
+            },
+            "url": { "raw": "http://{{url}}:1026/v2/entities", "host": ["{{url}}"], "port": "1026", "path": ["v2","entities"] }
+          },
+          "response": []
+        }
+      ]
     }
-  ],
-  "protocolProfileBehavior": {}
+  ]
 }
